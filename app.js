@@ -17,9 +17,22 @@ app.get("/", (req, res) => {
 app.get("/webhook", (req, res) => {
 	if(req.query["hub.verify_token"] === process.env.VERIFICATION_TOKEN) {
 		console.log("webhook verified");
+		res.json(req.body);
 		res.status(200).send(req.query["hub.challenge"]);
 	} else {
 		console.error("Verification failed. Tokens do not match");
 		res.sendStatus(403);
 	}
 });
+/*
+app.post("/webhook", (req, res) => {
+	if(req.query.object === "page") {
+
+		//Iterate over each entry - there may be multiple if batched
+		req.query.forEach(entry => {
+			let pageID = entry.id;
+
+		})
+	}
+})
+*/
