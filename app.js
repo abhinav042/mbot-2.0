@@ -10,14 +10,13 @@ app.listen((process.env.PORT || 5000));
 
 //home
 app.get("/", (req, res) => {
-	res.send("working..🔥");
+	res.send(req.body);
 });
 
 //facebook webhook verification
 app.get("/webhook", (req, res) => {
 	if(req.query["hub.verify_token"] === process.env.VERIFICATION_TOKEN) {
 		console.log("webhook verified");
-		res.send(req.body);
 		res.status(200).send(req.query["hub.challenge"]);
 	} else {
 		console.error("Verification failed. Tokens do not match");
