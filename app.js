@@ -10,7 +10,7 @@ app.listen((process.env.PORT || 5000));
 
 //home
 app.get("/", (req, res) => {
-	res.send(req.body);
+	res.send(res.body);
 });
 
 //facebook webhook verification
