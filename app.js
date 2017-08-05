@@ -63,7 +63,7 @@ function recievedMessage(event) {
 	const senderID = event.sender.id;
 	const recipientID = event.recipient.id;
 	const timeOfMessage = event.timestamp;
-	console.log(`Received message for user ${senderID} and page ${recipientID} at ${timeOfMessage} with message: ${JSON.stringify(message)}`);
+	console.log(`Received message for user ${senderID} and page ${recipientID} at ${timeOfMessage} with message: ${JSON.stringify(event.message)}`);
 	const messageID = event.message.mid;
 	const messageText = event.message.text;
 	const messageAttachements = event.message.attachements;
