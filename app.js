@@ -69,11 +69,15 @@ function recievedMessage(event) {
 	const messageAttachements = event.message.attachements;
 
 	if(messageText) {
-		case 'generic':
-			sendGenericMessage(senderID);
-		break;
-		default:
-			sendTextMessage(senderID, messageText);
+
+		switch(messageText) {
+			case 'generic':
+				sendGenericMessage(senderID);
+			break;
+			default:
+				sendTextMessage(senderID, messageText);
+		}
+		
 	} else if (messageAttachements) {
 		sendTextMessage(senderID, "attachments recieved");
 	}
