@@ -42,7 +42,7 @@ app.post("/webhook", (req, res) => {
 				else if(event.message) {
 					recievedMessage(event);
 				} else {
-					console.log("webhook recieved unkown ", event);
+					console.log("webhook recieved unknown ", event);
 				}
 			});
 		});
@@ -59,5 +59,54 @@ function recievedPostback(event) {
 
 //handling a message
 function recievedMessage(event) {
-	console.log("Message data: ", event.message);
+	//console.log("Message data: ", event.message);
+	const senderID = event.sender.id;
+	const recipientID = event.recipient.id;
+	const timeOfMessage = event.timestamp;
+	console.log(`Received message for user ${senderID} and page ${recipientID} at ${timeOfMessage} with message: ${JSON.stringify(message)}`);
+	const messageID = event.message.mid;
+	const messageText = event.message.text;
+	const messageAttachements = event.message.attachements;
+
+	if(messageText) {
+		case 'generic':
+			sendGenericMessage(senderID);
+		break;
+		default:
+			sendTextMessage(senderID, messageText);
+	} else if (messageAttachements) {
+		sendTextMessage(senderID, "attachments recieved");
+	}
 };
+
+function sendTextMessage(recipientID, messageText) {
+	const messageData = {
+		recipient: {
+			id: recipientID
+		},
+		message: {
+			text: messageText
+		}
+	};
+
+	callSendAPI(messageData);
+};
+
+function callSendAPI(messageData) {
+	request({
+		uri: "https://graph.facebook.com/v2.6/me/messages",
+		qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
+		method: "POST",
+		json: messageData
+	}, function(error, response, body) {
+		if(!error && response.statusCode == 200) {
+			const recipientID = body.recipient_id;
+			const messageID = body.message_id;
+			console.log(`Successfully sent a message with id ${messageID} to recipient ${recipientID}`);
+		} else {
+			console.error("unable to send message");
+			console.error(response);
+			console.error(error);
+		}
+	})
+}
