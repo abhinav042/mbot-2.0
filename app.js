@@ -36,7 +36,10 @@ app.post("/webhook", (req, res) => {
 			const pageID = entry.id;
 			const timeOfEvent = entry.time;
 			entry.messaging.forEach(event => {
-				if(event.message) {
+				if(event.postback) {
+					recievedPostback(event);
+				}
+				else if(event.message) {
 					recievedMessage(event);
 				} else {
 					console.log("webhook recieved unkown ", event);
@@ -49,7 +52,12 @@ app.post("/webhook", (req, res) => {
 	}
 });
 
-//
+//handling a postback
+function recievedPostback(event) {
+	console.log("Message data: ", event.message);	
+};
+
+//handling a message
 function recievedMessage(event) {
 	console.log("Message data: ", event.message);
 };
