@@ -26,19 +26,30 @@ app.get("/webhook", (req, res) => {
 	}
 });
 
-/*
+//posting callbacks to the messenger-bot
 app.post("/webhook", (req, res) => {
 	console.log(JSON.stringify(req.body));
 	if(req.body.object === "page") {
 
 		//Iterate over each entry - there may be multiple if batched
 		req.body.entry.forEach(entry => {
-			let pageID = entry.id;
-			let timeOfEvent = entry.time;
+			const pageID = entry.id;
+			const timeOfEvent = entry.time;
 			entry.messaging.forEach(event => {
+				if(event.message) {
+					recievedMessage(event);
+				} else {
+					console.log("webhook recieved unkown ", event);
+				}
+			});
+		});
 
-			})
-		})
+		//sending back a 200
+		res.sendStatus(200);
 	}
-})
-*/
+});
+
+//
+function recievedMessage(event) {
+	console.log("Message data: ", event.message);
+};
