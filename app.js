@@ -58,7 +58,7 @@ function recievedPostback(event) {
 	const senderID = event.sender.id;
 	const recipientID = event.recipient.id;
 	const timeOfMessage = event.timestamp;
-	if (payload === "Greeting") {
+	if (event.postback.payload === "Greeting") {
 		//get user's first name from USER API
 		getUserProfile(senderID, recipientID);
 	}
