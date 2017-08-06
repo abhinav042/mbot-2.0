@@ -124,7 +124,7 @@ function callSendAPI(messageData) {
 
 function getUserProfile(senderID, recipientID) {
     request({
-        uri: `https://graph.facebook.com/v2.6/${senderId}`,
+        uri: `https://graph.facebook.com/v2.6/${senderID}`,
         qs: {
             access_token: process.env.PAGE_ACCESS_TOKEN,
             fields: "first_name"
