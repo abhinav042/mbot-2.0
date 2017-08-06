@@ -110,7 +110,7 @@ function callSendAPI(messageData) {
 		method: "POST",
 		json: messageData
 	}, function(error, response, body) {
-		if(!error && response.statusCode == 200) {
+		if(!error) {
 			const recipientID = body.recipient_id;
 			const messageID = body.message_id;
 			console.log(`Successfully sent a message with id ${messageID} to recipient ${recipientID}`);
