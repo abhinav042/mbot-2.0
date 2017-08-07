@@ -112,6 +112,7 @@ function callSendAPI(messageData) {
 		json: messageData
 	}, function(error, response, body) {
 		if(!error) {
+			console.log(body);
 			const recipientID = body.recipient_id;
 			const messageID = body.message_id;
 			console.log(`Successfully sent a message with id ${messageID} to recipient ${recipientID}`);
