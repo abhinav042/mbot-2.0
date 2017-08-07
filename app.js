@@ -56,11 +56,11 @@ app.post("/webhook", (req, res) => {
 function recievedPostback(event) {
 	//console.log("Message data: ", event.message);	
 	const senderID = event.sender.id;
+	console.log(senderID);
 	const recipientID = event.recipient.id;
 	const timeOfMessage = event.timestamp;
 	if (event.postback.payload === "Greeting") {
 		//get user's first name from USER API
-		console.log("flow enters the if-else");
 		getUserProfile(senderID, recipientID);
 	}
 };
@@ -125,9 +125,8 @@ function callSendAPI(messageData) {
 };
 
 function getUserProfile(senderID, recipientID) {
-	console.log("TESTING 🔥");
     request({
-        uri: `https://graph.facebook.com/v2.6/${senderID}`,
+        uri: "https://graph.facebook.com/v2.6/" + senderID,
         qs: {
             access_token: process.env.PAGE_ACCESS_TOKEN,
             fields: "first_name"
