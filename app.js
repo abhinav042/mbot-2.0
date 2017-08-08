@@ -54,15 +54,42 @@ app.post("/webhook", (req, res) => {
 
 //handling a postback
 function recievedPostback(event) {
-	//console.log("Message data: ", event.message);	
-	const senderID = event.sender.id;
-	console.log(senderID);
-	const recipientID = event.recipient.id;
-	const timeOfMessage = event.timestamp;
-	if (event.postback.payload === "Greeting") {
-		//get user's first name from USER API
-		getUserProfile(senderID, recipientID);
-	}
+    //console.log("Message data: ", event.message);	
+    const senderID = event.sender.id;
+    console.log(senderID);
+    const recipientID = event.recipient.id;
+    const timeOfMessage = event.timestamp;
+    if (event.postback.payload === "Greeting") {
+        //get user's first name from USER API
+        //getUserProfile(senderID, recipientID);
+        request({
+            uri: "https://graph.facebook.com/v2.6/" + senderID,
+            qs: {
+                access_token: process.env.PAGE_ACCESS_TOKEN,
+                fields: "first_name"
+            },
+            method: "GET",
+        }, function(error, response, body) {
+            let greeting = "";
+            if (error) {
+                console.log(`Error getting user's name ${error}`);
+            } else {
+                const name = JSON.parse(body).first_name;
+                greeting = `Hi! ${name}.`;
+            }
+            const messageText = `${greeting} Ask me movie trivia. 🖕🏽 `;
+
+            const messageData = {
+                recipient: {
+                    id: recipientID
+                },
+                message: {
+                    text: messageText
+                }
+            };
+            callSendAPI(messageData);
+        });
+    }
 };
 
 //handling a message
@@ -125,33 +152,7 @@ function callSendAPI(messageData) {
 };
 
 function getUserProfile(senderID, recipientID) {
-    request({
-        uri: "https://graph.facebook.com/v2.6/" + senderID,
-        qs: {
-            access_token: process.env.PAGE_ACCESS_TOKEN,
-            fields: "first_name"
-        },
-        method: "GET",
-    }, function(error, response, body) {
-        let greeting = "";
-        if (error) {
-            console.log(`Error getting user's name ${error}`);
-        } else {
-            name = JSON.parse(body).first_name;
-            greeting = `Hi! ${name}.`;
-        }
-        const messageText = `${greeting} Ask me movie trivia. 🖕🏽 `;
-
-        const messageData = {
-			recipient: {
-				id: recipientID
-			},
-			message: {
-				text: messageText
-			}
-		};
-		callSendAPI(messageData);
-    });
+    
 };
 
 
