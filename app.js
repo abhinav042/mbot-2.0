@@ -77,9 +77,8 @@ function recievedPostback(event) {
                 greeting = `Hi! ${name}.`;
             }
             const messageText = `${greeting} Ask me movie trivia. 🖕🏽 `;
-
+            console.log(senderID);
             const messageData = {
-            	console.log(senderID);
                 recipient: {
                     id: senderID
                 },
