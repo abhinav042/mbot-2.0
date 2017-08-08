@@ -56,7 +56,6 @@ app.post("/webhook", (req, res) => {
 function recievedPostback(event) {
     //console.log("Message data: ", event.message);	
     const senderID = event.sender.id;
-    console.log(senderID);
     const recipientID = event.recipient.id;
     const timeOfMessage = event.timestamp;
     if (event.postback.payload === "Greeting") {
@@ -80,8 +79,9 @@ function recievedPostback(event) {
             const messageText = `${greeting} Ask me movie trivia. 🖕🏽 `;
 
             const messageData = {
+            	console.log(senderID);
                 recipient: {
-                    id: recipientID
+                    id: senderID
                 },
                 message: {
                     text: messageText
