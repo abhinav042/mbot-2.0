@@ -184,7 +184,7 @@ function findMovie(userID, movieTitle) {
 				title: movieObj[0].title,
 				plot: movieObj[0].storyline,
 				date: movieObj[0].release_date,
-				runtime: release_date.length,
+				runtime: movieObj[0].length,
 				director: movieObj[0].director,
 				cast: movieObj[0].cast,
 				rating: movieObj[0].rating,
