@@ -227,7 +227,7 @@ function findMovie(userID, movieTitle) {
                             }
                         }
                     }
-                    callSendAPI(message);
+                    callSendAPI(messageData);
                 }
             });
         } else {
