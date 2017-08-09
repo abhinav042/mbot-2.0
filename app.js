@@ -93,9 +93,9 @@ function recievedPostback(event) {
             callSendAPI(messageData);
         });
     } else if (payload === "correct") {
-    	sendTextMessage(senderID, "works 🔥");
+        sendTextMessage(senderID, "works 🔥");
     } else if (payload === "incorrect") {
-    	sendTextMessage(senderID, "enter another thang ⛔");
+        sendTextMessage(senderID, "enter another thang ⛔");
     }
 };
 
@@ -112,16 +112,16 @@ function recievedMessage(event) {
         const messageAttachements = event.message.attachements;
 
         if (messageText) {
-        	const formattedMsg = messageText.toLowerCase().trim();
+            const formattedMsg = messageText.toLowerCase().trim();
             switch (formattedMsg) {
-            	case 'plot':
-            	case 'date':            		
-            	case 'runtime':
-            	case 'director':
-            	case 'cast':
-            	case 'rating':
-            		getMovieDetails(senderID, formattedMsg);
-            		break;            	
+                case 'plot':
+                case 'date':
+                case 'runtime':
+                case 'director':
+                case 'cast':
+                case 'rating':
+                    getMovieDetails(senderID, formattedMsg);
+                    break;
                 case 'generic':
                     sendGenericMessage(senderID);
                     break;
@@ -175,59 +175,63 @@ function getUserProfile(senderID, recipientID) {
 };
 
 function findMovie(userID, movieTitle) {
-	request(`https://theimdbapi.org/api/find/movie?title=${movieTitle}`, function(error, res, body) {
-		console.log(body);
-		if(!error && res.statusCode === 200) {
-			const movieObj = JSON.parse(body);
-			const query = {user_id: userID};
-			const update = {
-				user_id: userID,
-				title: movieObj[0].title,
-				plot: movieObj[0].storyline,
-				date: movieObj[0].release_date,
-				runtime: movieObj[0].length,
-				director: movieObj[0].director,
-				cast: movieObj[0].cast,
-				rating: movieObj[0].rating,
-				poster_url: movieObj[0].poster.thumb
-			};
-			const options = {upsert: true};
-			Movie.findOneAndUpdate(query, update, options, (err, movie) => {
-				if(err) {
-					console.log(`db error : ${err}`);
-				} else {
-					message = {
-						attachment: {
-							type: "template",
-							payload: {
-								template_type: "generic",
-								elements: [{
-									title: movieObj[0].title,
-									subtitle: "was i correct?",
-									image_url: movieObj[0].poster_url || "http://placehold.it/350x150",
-									buttons: [{
-										type: "postback",
-										title: "yes 👍🏽",
-										payload: "correct"
-									}, {
-										type: "postback",
-										title: "no 👎🏽",
-										payload: "incorrect"
-									}]
-								}]
-							}
-						}
-					};
-					callSendAPI(message);
-				}
-			});
-		} else {
-			sendTextMessage(userID, "Something went wrong. Try again.");
-		}
-	});
+    request(`https://theimdbapi.org/api/find/movie?title=${movieTitle}`, function(error, res, body) {
+        console.log(body);
+        if (!error && res.statusCode === 200) {
+            const movieObj = JSON.parse(body);
+            const query = {
+                user_id: userID
+            };
+            const update = {
+                user_id: userID,
+                title: movieObj[0].title,
+                plot: movieObj[0].storyline,
+                date: movieObj[0].release_date,
+                runtime: movieObj[0].length,
+                director: movieObj[0].director,
+                cast: movieObj[0].cast,
+                rating: movieObj[0].rating,
+                poster_url: movieObj[0].poster.thumb
+            };
+            const options = {
+                upsert: true
+            };
+            Movie.findOneAndUpdate(query, update, options, (err, movie) => {
+                if (err) {
+                    console.log(`db error : ${err}`);
+                } else {
+                    const messageData = {
+                        recipient: {
+                            id: userID
+                        },
+                        message: {
+                            attachment: {
+                                type: "template",
+                                payload: {
+                                    template_type: "generic",
+                                    elements: [{
+                                        title: movieObj[0].title,
+                                        subtitle: "was i correct?",
+                                        image_url: movieObj[0].poster_url || "http://placehold.it/350x150",
+                                        buttons: [{
+                                            type: "postback",
+                                            title: "yes 👍🏽",
+                                            payload: "correct"
+                                        }, {
+                                            type: "postback",
+                                            title: "no 👎🏽",
+                                            payload: "incorrect"
+                                        }]
+                                    }]
+                                }
+                            }
+                        }
+                    }
+                    callSendAPI(message);
+                }
+            });
+        } else {
+            sendTextMessage(userID, "Something went wrong. Try again.");
+        }
+    });
 };
-
-
-
-
-
