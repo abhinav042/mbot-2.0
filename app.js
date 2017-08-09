@@ -202,7 +202,7 @@ function findMovie(userID, movieTitle) {
 								template_type: "generic",
 								elements: [{
 									title: movieObj[0].title,
-									subtitle: "was i correct?"
+									subtitle: "was i correct?",
 									image_url: movieObj[0].poster_url || "http://placehold.it/350x150"
 									buttons: [{
 										type: "postback",
