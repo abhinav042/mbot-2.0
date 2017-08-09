@@ -203,7 +203,7 @@ function findMovie(userID, movieTitle) {
 								elements: [{
 									title: movieObj[0].title,
 									subtitle: "was i correct?",
-									image_url: movieObj[0].poster_url || "http://placehold.it/350x150"
+									image_url: movieObj[0].poster_url || "http://placehold.it/350x150",
 									buttons: [{
 										type: "postback",
 										title: "yes 👍🏽",
