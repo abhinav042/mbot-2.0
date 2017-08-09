@@ -236,3 +236,15 @@ function findMovie(userID, movieTitle) {
         }
     });
 };
+
+function getMovieDetail(userID, field) {
+	Movie.findOne({
+		user_id: userID
+	}, (err, movie) => {
+		if(err) {
+			sendTextMessage(userID, "Something went wrong. Try again");
+		} else {
+			sendTextMessage(userID, movie[field]);
+		}
+	});
+};
