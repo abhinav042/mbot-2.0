@@ -175,7 +175,7 @@ function getUserProfile(senderID, recipientID) {
 };
 
 function findMovie(userID, movieTitle) {
-    request(`https://theimdbapi.org/api/find/movie?title=${movieTitle}`, function(error, res, body) {
+    request(`https://theimdbapi.org/api/find/movie?title=${movieTitle}`, (error, res, body) => {
         console.log(body);
         if (!error && res.statusCode === 200) {
             const movieObj = JSON.parse(body);
@@ -185,7 +185,7 @@ function findMovie(userID, movieTitle) {
             const update = {
                 user_id: userID,
                 title: movieObj[0].title,
-                plot: movieObj[0].description,
+                plot: movieObj[0].description || movieObj[0].storyline.substring(0, 600),
                 date: movieObj[0].release_date,
                 runtime: movieObj[0].length,
                 director: movieObj[0].director,
@@ -244,7 +244,7 @@ function getMovieDetail(userID, field) {
 		if(err) {
 			sendTextMessage(userID, "Something went wrong. Try again");
 		} else {
-			sendTextMessage(userID, movie.field);
+			sendTextMessage(userID, movie[field]);
 		}
 	});
 };
