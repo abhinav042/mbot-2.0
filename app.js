@@ -185,7 +185,7 @@ function findMovie(userID, movieTitle) {
             const update = {
                 user_id: userID,
                 title: movieObj[0].title,
-                plot: movieObj[0].storyline,
+                plot: movieObj[0].description,
                 date: movieObj[0].release_date,
                 runtime: movieObj[0].length,
                 director: movieObj[0].director,
@@ -244,7 +244,7 @@ function getMovieDetail(userID, field) {
 		if(err) {
 			sendTextMessage(userID, "Something went wrong. Try again");
 		} else {
-			sendTextMessage(userID, movie[field]);
+			sendTextMessage(userID, movie.field);
 		}
 	});
 };
