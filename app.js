@@ -176,7 +176,7 @@ function getUserProfile(senderID, recipientID) {
 
 function findMovie(userID, movieTitle) {
 	request(`https://theimdbapi.org/api/find/movie?title=${movieTitle}`, function(error, res, body) {
-		if(!error &amp; &amp; res.statusCode === 200) {
+		if(!error && res.statusCode === 200) {
 			const movieObj = JSON.parse(body);
 			const query = {user_id: userID};
 			const update = {
