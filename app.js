@@ -92,9 +92,9 @@ function recievedPostback(event) {
             };
             callSendAPI(messageData);
         });
-    } else if (payload === "correct") {
+    } else if (event.postback.payload === "correct") {
         sendTextMessage(senderID, "works 🔥");
-    } else if (payload === "incorrect") {
+    } else if (event.postback.payload === "incorrect") {
         sendTextMessage(senderID, "enter another thang ⛔");
     }
 };
@@ -191,8 +191,9 @@ function findMovie(userID, movieTitle) {
                 director: movieObj[0].director,
                 cast: movieObj[0].cast,
                 rating: movieObj[0].rating,
-                poster_url: movieObj[0].poster.thumb
+                poster_url: movieObj[0].poster.large
             };
+            console.log(`🔥 🔥 ${update.poster_url}`);
             const options = {
                 upsert: true
             };
