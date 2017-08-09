@@ -180,7 +180,7 @@ function findMovie(userID, movieTitle) {
 			const movieObj = JSON.parse(body);
 			const query = {user_id: userID};
 			const update = {
-				user_id: userID;
+				user_id: userID,
 				title: movieObj[0].title,
 				plot: movieObj[0].storyline,
 				date: movieObj[0].release_date,
