@@ -120,7 +120,7 @@ function recievedMessage(event) {
                 case 'director':
                 case 'cast':
                 case 'rating':
-                    getMovieDetails(senderID, formattedMsg);
+                    getMovieDetail(senderID, formattedMsg);
                     break;
                 case 'generic':
                     sendGenericMessage(senderID);
