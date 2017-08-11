@@ -213,7 +213,7 @@ function findMovie(userID, movieTitle) {
                                     elements: [{
                                         title: movieObj[0].title,
                                         subtitle: "was i correct?",
-                                        image_url: movieObj[0].poster_url,
+                                        image_url: movieObj[0].poster_url || "http://www.worstpreviews.com/images/headlines/temp/temp4088_thumb.jpg",
                                         buttons: [{
                                             type: "postback",
                                             title: "yes 👍🏽",
